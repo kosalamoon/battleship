@@ -1,10 +1,12 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
+export type GameStatus = 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED';
+
 @Entity('game')
 export class GameEntity {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-  @Column()
-  gridSize: number;
+  @Column({ default: 'NOT_STARTED' })
+  status: GameStatus;
 }
