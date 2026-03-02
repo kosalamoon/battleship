@@ -1,4 +1,9 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 export type GameStatus = 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED';
 
@@ -9,4 +14,7 @@ export class GameEntity {
 
   @Column({ default: 'NOT_STARTED' })
   status: GameStatus;
+
+  @CreateDateColumn()
+  createdAt: Date;
 }

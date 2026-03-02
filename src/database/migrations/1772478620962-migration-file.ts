@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class MigrationFile1772475030866 implements MigrationInterface {
+export class MigrationFile1772478620962 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
       `INSERT INTO "ship_type" (name, size) VALUES ('Destroyer', 4), ('Battleship', 5)`,
@@ -19,7 +19,7 @@ export class MigrationFile1772475030866 implements MigrationInterface {
     );
     await queryRunner.query(
       `INSERT INTO "game_config" (name, count, ship_type_id) VALUES ($1, $2, $3)`,
-      ['DEFAULT_CONFIG', 2, battleship.id],
+      ['DEFAULT_CONFIG', 1, battleship.id],
     );
   }
 

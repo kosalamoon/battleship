@@ -1,0 +1,22 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "start:debug",
+      "type": "npm",
+      "script": "start:debug",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "nestjs",
+        "pattern": {
+          "regexp": "^$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Starting compilation in watch mode",
+          "endsPattern": "Nest application successfully started"
+        }
+      }
+    }
+  ]
+}
