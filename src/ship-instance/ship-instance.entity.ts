@@ -2,8 +2,8 @@ import { GameEntity } from 'src/game/game.entity';
 import { ShipTypeEntity } from 'src/ship-type/ship-type.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('game_ship')
-export class GameShipEntity {
+@Entity('ship_instance')
+export class ShipInstanceEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

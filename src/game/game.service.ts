@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { GameShipService } from 'src/game-ship/game-ship.service';
+import { ShipInstanceService } from 'src/ship-instance/ship-instance.service';
 import { ShipPositionService } from 'src/ship-position/ship-position.service';
 import { ShipTypeService } from 'src/ship-type/ship-type.service';
 import { DataSource, EntityManager, Repository } from 'typeorm';
@@ -12,7 +12,7 @@ export class GameService {
   constructor(
     @InjectRepository(GameEntity)
     private readonly gameRepository: Repository<GameEntity>,
-    private readonly gameShipService: GameShipService,
+    private readonly shipInstanceService: ShipInstanceService,
     private readonly shipPositionService: ShipPositionService,
     private readonly shipTypeService: ShipTypeService,
     private readonly configService: ConfigService,
@@ -29,7 +29,7 @@ export class GameService {
       const game = await this.createGame(manager);
 
       for (const shipType of shipTypes) {
-        const gameShip = await this.gameShipService.create(
+        const shipInstance = await this.shipInstanceService.create(
           { game, shipType, hitCount: 0, isSunk: false },
           manager,
         );

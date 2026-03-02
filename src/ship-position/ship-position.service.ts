@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ShipPositionEntity } from './ship-position.entity';
 import { EntityManager, Repository } from 'typeorm';
-import { ShipTypeEntity } from 'src/ship-type/ship-type.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 
@@ -28,12 +27,12 @@ export class ShipPositionService {
     return manager.save(ship);
   }
 
-  initializeShipPositions(value: { gameShipId: string; size: number }[]) {
+  initializeShipPositions(value: { shipInstanceId: string; size: number }[]) {
     // Sort ship types by size in descending order to place larger ships first
     const sortedShipTypes = [...value].sort((a, b) => b.size - a.size);
 
     const occupiedPositions = new Set<string>();
-    const finalPlacements: { gameShipId: string; position: string }[] = [];
+    const finalPlacements: { shipInstanceId: string; position: string }[] = [];
     for (const shipType of sortedShipTypes) {
       let placed = false;
 
@@ -41,7 +40,7 @@ export class ShipPositionService {
       while (!placed) {
         if (attempts >= this.maxPlacementAttempts) {
           throw new Error(
-            `Failed to place ship ${shipType.gameShipId} after ${this.maxPlacementAttempts} attempts`,
+            `Failed to place ship ${shipType.shipInstanceId} after ${this.maxPlacementAttempts} attempts`,
           );
         }
         attempts++;
@@ -79,7 +78,7 @@ export class ShipPositionService {
           for (const position of proposedPosition) {
             occupiedPositions.add(position);
             finalPlacements.push({
-              gameShipId: shipType.gameShipId,
+              shipInstanceId: shipType.shipInstanceId,
               position,
             });
           }

@@ -1,4 +1,4 @@
-import { GameShipEntity } from 'src/game-ship/game-ship.entity';
+import { ShipInstanceEntity } from 'src/ship-instance/ship-instance.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('ship_position')
@@ -6,8 +6,8 @@ export class ShipPositionEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => GameShipEntity)
-  gameShip: GameShipEntity;
+  @ManyToOne(() => ShipInstanceEntity)
+  shipInstance: ShipInstanceEntity;
 
   @Column()
   position: string;

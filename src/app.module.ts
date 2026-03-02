@@ -3,7 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { GameShipModule } from './game-ship/game-ship.module';
+import { ShipInstanceModule } from './ship-instance/ship-instance.module';
 import { GameModule } from './game/game.module';
 import { ShipPositionModule } from './ship-position/ship-position.module';
 import { ShipTypeModule } from './ship-type/ship-type.module';
@@ -23,7 +23,7 @@ import { ShotModule } from './shot/shot.module';
     }),
     GameModule,
     ShipTypeModule,
-    GameShipModule,
+    ShipInstanceModule,
     ShipPositionModule,
     ShotModule,
   ],
