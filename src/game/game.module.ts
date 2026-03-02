@@ -3,14 +3,18 @@ import { GameService } from './game.service';
 import { GameController } from './game.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GameEntity } from './game.entity';
+import { GameConfigModule } from 'src/game-config/game-config.module';
 import { ShipInstanceModule } from 'src/ship-instance/ship-instance.module';
 import { ShipPositionModule } from 'src/ship-position/ship-position.module';
+import { ShipTypeModule } from 'src/ship-type/ship-type.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([GameEntity]),
+    GameConfigModule,
     ShipInstanceModule,
     ShipPositionModule,
+    ShipTypeModule,
   ],
   controllers: [GameController],
   providers: [GameService],

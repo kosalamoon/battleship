@@ -27,9 +27,9 @@ export class ShipPositionService {
     return manager.save(ship);
   }
 
-  initializeShipPositions(value: { shipInstanceId: string; size: number }[]) {
+  initializeShipPositions(args: { shipInstanceId: string; size: number }[]) {
     // Sort ship types by size in descending order to place larger ships first
-    const sortedShipTypes = [...value].sort((a, b) => b.size - a.size);
+    const sortedShipTypes = [...args].sort((a, b) => b.size - a.size);
 
     const occupiedPositions = new Set<string>();
     const finalPlacements: { shipInstanceId: string; position: string }[] = [];
@@ -40,7 +40,7 @@ export class ShipPositionService {
       while (!placed) {
         if (attempts >= this.maxPlacementAttempts) {
           throw new Error(
-            `Failed to place ship ${shipType.shipInstanceId} after ${this.maxPlacementAttempts} attempts`,
+            `Failed to place ship instance ${shipType.shipInstanceId} after ${this.maxPlacementAttempts} attempts`,
           );
         }
         attempts++;

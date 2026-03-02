@@ -8,5 +8,6 @@ import { ShipPositionEntity } from './ship-position.entity';
   imports: [TypeOrmModule.forFeature([ShipPositionEntity])],
   controllers: [ShipPositionController],
   providers: [ShipPositionService],
+  exports: [ShipPositionService],
 })
 export class ShipPositionModule {}

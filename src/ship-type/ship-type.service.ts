@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { ShipTypeEntity } from './ship-type.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { EntityManager, Repository } from 'typeorm';
+import { EntityManager, FindOneOptions, Repository } from 'typeorm';
+import { ShipTypeEntity } from './ship-type.entity';
 
 @Injectable()
 export class ShipTypeService {
@@ -9,7 +9,13 @@ export class ShipTypeService {
     @InjectRepository(ShipTypeEntity)
     private readonly shipTypeRepository: Repository<ShipTypeEntity>,
   ) {}
-  async findAll(manager: EntityManager) {
-    return manager.find(ShipTypeEntity);
+  async findByName(name: string, manager?: EntityManager) {
+    const options: FindOneOptions<ShipTypeEntity> = {
+      where: { name },
+    };
+    if (manager) {
+      return manager.findOne(ShipTypeEntity, options);
+    }
+    return this.shipTypeRepository.findOne(options);
   }
 }

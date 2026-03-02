@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
+import { ShipInstanceEntity } from 'src/ship-instance/ship-instance.entity';
 import { ShipInstanceService } from 'src/ship-instance/ship-instance.service';
+import { ShipPositionEntity } from 'src/ship-position/ship-position.entity';
 import { ShipPositionService } from 'src/ship-position/ship-position.service';
-import { ShipTypeService } from 'src/ship-type/ship-type.service';
 import { DataSource, EntityManager, Repository } from 'typeorm';
 import { GameEntity } from './game.entity';
 
@@ -14,31 +14,45 @@ export class GameService {
     private readonly gameRepository: Repository<GameEntity>,
     private readonly shipInstanceService: ShipInstanceService,
     private readonly shipPositionService: ShipPositionService,
-    private readonly shipTypeService: ShipTypeService,
-    private readonly configService: ConfigService,
     private readonly dataSource: DataSource,
   ) {}
 
-  async startGame() {
+  async startGame(): Promise<GameEntity> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
     const manager = queryRunner.manager;
-    try {
-      const shipTypes = await this.shipTypeService.findAll(manager);
-      const game = await this.createGame(manager);
+    let game: GameEntity;
 
-      for (const shipType of shipTypes) {
-        const shipInstance = await this.shipInstanceService.create(
-          { game, shipType, hitCount: 0, isSunk: false },
-          manager,
-        );
-      }
-    } catch {
+    try {
+      game = await this.createGame(manager);
+
+      const instancesToPlace =
+        await this.shipInstanceService.createBasedOnGameConfigs(game, manager);
+
+      const positions = this.shipPositionService.initializeShipPositions(
+        instancesToPlace.map((i) => ({
+          shipInstanceId: i.id,
+          size: i.shipType.size,
+        })),
+      );
+
+      const positionEntities = positions.map((p) => ({
+        position: p.position,
+        isHit: false,
+        shipInstance: { id: p.shipInstanceId } as ShipInstanceEntity,
+      }));
+      await queryRunner.manager.save(ShipPositionEntity, positionEntities);
+
+      await queryRunner.commitTransaction();
+    } catch (error) {
       await queryRunner.rollbackTransaction();
+      throw error;
     } finally {
       await queryRunner.release();
     }
+
+    return game;
   }
 
   async createGame(manager: EntityManager) {

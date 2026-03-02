@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { GameConfigModule } from './game-config/game-config.module';
 import { ShipInstanceModule } from './ship-instance/ship-instance.module';
 import { GameModule } from './game/game.module';
 import { ShipPositionModule } from './ship-position/ship-position.module';
@@ -17,10 +18,11 @@ import { ShotModule } from './shot/shot.module';
         type: 'sqlite',
         database: config.get<string>('DATABASE_PATH'),
         autoLoadEntities: true,
-        synchronize: true,
+        synchronize: false,
       }),
       inject: [ConfigService],
     }),
+    GameConfigModule,
     GameModule,
     ShipTypeModule,
     ShipInstanceModule,
