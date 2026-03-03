@@ -1,5 +1,15 @@
-import { Body, Controller, HttpStatus, Logger, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Logger,
+  Param,
+  ParseUUIDPipe,
+  Post,
+} from '@nestjs/common';
 import { ApiResponse } from 'src/common/dto/api-response.dto';
+import { GameStateResponseDto } from './dto/game-state-response.dto';
 import { ShootRequestDto } from './dto/shoot-request.dto';
 import { ShootResponseDto } from './dto/shoot-response.dto';
 import { StartGameResponseDto } from './dto/start-game-response.dto';
@@ -10,6 +20,15 @@ export class GameController {
   private readonly logger = new Logger(GameController.name);
 
   constructor(private readonly gameService: GameService) {}
+
+  @Get(':id')
+  async getGameState(
+    @Param('id', new ParseUUIDPipe()) id: string,
+  ): Promise<ApiResponse<GameStateResponseDto>> {
+    this.logger.log(`Received request to get game state: id=${id}`);
+    const data = await this.gameService.getGameState(id);
+    return ApiResponse.success(data, 'Game state retrieved successfully');
+  }
 
   @Post('start')
   async startGame(): Promise<ApiResponse<StartGameResponseDto>> {

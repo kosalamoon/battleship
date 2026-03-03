@@ -5,6 +5,7 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
+import { GameStateResponseDto } from './dto/game-state-response.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ShipInstanceEntity } from 'src/ship-instance/ship-instance.entity';
 import { ShipInstanceService } from 'src/ship-instance/ship-instance.service';
@@ -237,6 +238,28 @@ export class GameService {
     }
 
     return { shipSunk, gameOver };
+  }
+
+  async getGameState(gameId: string): Promise<GameStateResponseDto> {
+    const game = await this.findGame(gameId);
+    if (!game) {
+      this.logger.warn(`Game not found: ${gameId}`);
+      throw new NotFoundException('Game not found');
+    }
+
+    const shots = await this.shotService.findAllByGame(gameId);
+    const shipsRemaining = await this.shipInstanceService.countUnsunkByGame(
+      gameId,
+      this.dataSource.manager,
+    );
+
+    return {
+      gameId: game.id,
+      status: game.status,
+      gridSize: this.shipPositionService.gridSize,
+      shots: shots.map((s) => ({ position: s.position, success: s.success })),
+      shipsRemaining,
+    };
   }
 
   async createGame(manager: EntityManager) {

@@ -33,4 +33,11 @@ export class ShotService {
       game: { id: gameId } as GameEntity,
     });
   }
+
+  async findAllByGame(gameId: string): Promise<ShotEntity[]> {
+    return this.shotRepository.find({
+      where: { game: { id: gameId } },
+      order: { createdAt: 'ASC' },
+    });
+  }
 }
