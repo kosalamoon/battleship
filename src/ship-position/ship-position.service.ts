@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { ShipPositionEntity } from './ship-position.entity';
-import { EntityManager, Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
+import { EntityManager } from 'typeorm';
+import { ShipPositionEntity } from './ship-position.entity';
 
 type CreateShipPosition = Omit<ShipPositionEntity, 'id'>;
 
@@ -11,11 +10,7 @@ export class ShipPositionService {
   gridSize: number;
   maxPlacementAttempts: number;
 
-  constructor(
-    @InjectRepository(ShipPositionEntity)
-    private readonly shipPositionRepository: Repository<ShipPositionEntity>,
-    private readonly configService: ConfigService,
-  ) {
+  constructor(private readonly configService: ConfigService) {
     this.gridSize = this.configService.get<number>('GRID_SIZE', 10);
     this.maxPlacementAttempts = this.configService.get<number>(
       'MAX_PLACEMENT_ATTEMPTS',

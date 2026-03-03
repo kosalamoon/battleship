@@ -1,8 +1,15 @@
 import { ShipTypeEntity } from 'src/ship-type/ship-type.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  Index,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { BaseEntity } from 'src/common/base.entity';
 
 @Entity('game_config')
+@Index(['shipType'])
 export class GameConfigEntity extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
