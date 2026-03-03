@@ -10,6 +10,8 @@ async function bootstrap() {
   const logger = app.get(AppLogger);
   app.useLogger(logger);
 
+  app.enableCors();
+
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   app.useGlobalFilters(new GlobalExceptionFilter());
 
