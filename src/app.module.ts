@@ -10,12 +10,23 @@ import { ShipPositionModule } from './ship-position/ship-position.module';
 import { ShipTypeModule } from './ship-type/ship-type.module';
 import { ShotModule } from './shot/shot.module';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import * as Joi from 'joi';
 import { AppLogger } from './common/logger/app-logger.service';
 import { LoggingMiddleware } from './common/middleware/logging.middleware';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validationSchema: Joi.object({
+        PORT: Joi.number().default(3000),
+        DB_HOST: Joi.string().required(),
+        DB_PORT: Joi.number().default(5432),
+        DB_USERNAME: Joi.string().required(),
+        DB_PASSWORD: Joi.string().required(),
+        DB_NAME: Joi.string().required(),
+      }),
+    }),
     TypeOrmModule.forRootAsync({
       useFactory: (config: ConfigService) => ({
         // type: 'sqlite',

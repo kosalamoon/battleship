@@ -79,6 +79,7 @@ See the [Database Diagram](https://dbdiagram.io/d/battleship-69a3c76ba3f0aa31e16
 | `pg`                        | PostgreSQL driver — connects Node.js to the PostgreSQL database                               |
 | `class-validator`           | Validates incoming request payloads using decorators on DTO classes                           |
 | `class-transformer`         | Transforms plain JSON objects into typed class instances for validation and serialization     |
+| `joi`                       | Used to validate environment variables                                                        |
 | `dotenv`                    | Loads environment variables (DB host, port, credentials) from a `.env` file                   |
 | `typeorm-naming-strategies` | Automatically converts camelCase entity properties to snake_case column names in the database |
 | `Jest` / `ts-jest`          | Unit and integration test runner with TypeScript support                                      |
