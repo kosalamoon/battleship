@@ -128,11 +128,13 @@ Returns the shot result: `HIT`, `MISS`, or `ALREADY_SHOT`, whether a ship was su
 
 Returns game status, all shots fired so far, and the count of remaining ships.
 
+### Postman
+
+A Postman collection with example requests is included in `postman/Battleship.postman_collection.json`. Import it into Postman to test the API endpoints.
+
 ---
 
-## Database
-
-See the [ER Diagram](https://dbdiagram.io/d/battleship-69a3c76ba3f0aa31e16aebad) for the full data model.
+## Migrations
 
 Migrations are located in `src/database/migrations/`. Running `migration:run` applies all pending migrations in order, including the seed data for ship types and game configuration.
 
