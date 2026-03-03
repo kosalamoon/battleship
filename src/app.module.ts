@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
@@ -10,6 +10,8 @@ import { ShipPositionModule } from './ship-position/ship-position.module';
 import { ShipTypeModule } from './ship-type/ship-type.module';
 import { ShotModule } from './shot/shot.module';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import { AppLogger } from './common/logger/app-logger.service';
+import { LoggingMiddleware } from './common/middleware/logging.middleware';
 
 @Module({
   imports: [
@@ -38,6 +40,10 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
     ShotModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AppLogger, LoggingMiddleware],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggingMiddleware).forRoutes('*');
+  }
+}

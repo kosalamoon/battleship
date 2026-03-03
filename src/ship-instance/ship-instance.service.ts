@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { EntityManager } from 'typeorm';
+import { DeepPartial, EntityManager } from 'typeorm';
 import { ShipInstanceEntity } from './ship-instance.entity';
 import { GameEntity } from 'src/game/game.entity';
 import { GameConfigService } from 'src/game-config/game-config.service';
 
-type CreateShipInstance = Omit<ShipInstanceEntity, 'id'>;
+type CreateShipInstance = DeepPartial<ShipInstanceEntity>;
 
 @Injectable()
 export class ShipInstanceService {
