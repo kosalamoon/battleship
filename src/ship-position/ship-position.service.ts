@@ -90,6 +90,25 @@ export class ShipPositionService {
     return finalPlacements;
   }
 
+  async findByPositionAndGame(
+    position: string,
+    gameId: string,
+    manager: EntityManager,
+  ): Promise<ShipPositionEntity | null> {
+    return manager.findOne(ShipPositionEntity, {
+      where: { position, shipInstance: { game: { id: gameId } } },
+      relations: ['shipInstance', 'shipInstance.shipType'],
+    });
+  }
+
+  async markAsHit(
+    shipPosition: ShipPositionEntity,
+    manager: EntityManager,
+  ): Promise<void> {
+    shipPosition.isHit = true;
+    await manager.save(ShipPositionEntity, shipPosition);
+  }
+
   private numberToLetter(num: number): string {
     return String.fromCharCode(65 + num);
   }

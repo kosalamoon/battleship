@@ -29,4 +29,28 @@ export class ShipInstanceService {
   async create(shipInstance: CreateShipInstance, manager: EntityManager) {
     return manager.save(manager.create(ShipInstanceEntity, shipInstance));
   }
+
+  async applyHit(
+    shipInstance: ShipInstanceEntity,
+    manager: EntityManager,
+  ): Promise<{ isSunk: boolean; shipTypeName: string }> {
+    shipInstance.hitCount += 1;
+    if (shipInstance.hitCount >= shipInstance.shipType.size) {
+      shipInstance.isSunk = true;
+    }
+    await manager.save(ShipInstanceEntity, shipInstance);
+    return {
+      isSunk: shipInstance.isSunk,
+      shipTypeName: shipInstance.shipType.name,
+    };
+  }
+
+  async countUnsunkByGame(
+    gameId: string,
+    manager: EntityManager,
+  ): Promise<number> {
+    return manager.count(ShipInstanceEntity, {
+      where: { game: { id: gameId }, isSunk: false },
+    });
+  }
 }

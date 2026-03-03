@@ -7,6 +7,7 @@ import { GameConfigModule } from 'src/game-config/game-config.module';
 import { ShipInstanceModule } from 'src/ship-instance/ship-instance.module';
 import { ShipPositionModule } from 'src/ship-position/ship-position.module';
 import { ShipTypeModule } from 'src/ship-type/ship-type.module';
+import { ShotModule } from 'src/shot/shot.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ShipTypeModule } from 'src/ship-type/ship-type.module';
     ShipInstanceModule,
     ShipPositionModule,
     ShipTypeModule,
+    ShotModule,
   ],
   controllers: [GameController],
   providers: [GameService],
