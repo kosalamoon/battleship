@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable */
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
 export class MigrationFile1772478620962 implements MigrationInterface {
