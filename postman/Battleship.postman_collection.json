@@ -1,0 +1,127 @@
+{
+  "info": {
+    "_postman_id": "a76ae6e6-54a4-4630-a7f6-b255c05594cc",
+    "name": "Battleship",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "3318574"
+  },
+  "item": [
+    {
+      "name": "Start",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "const res = pm.response.json();",
+              "console.log(res);",
+              "pm.collectionVariables.set(\"gameId\", res.data.gameId);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "localhost:3000/games/start",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "games",
+            "start"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Shoot",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"gameId\": \"{{gameId}}\",\n    \"position\": \"G4\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:3000/games/shoot",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "games",
+            "shoot"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Game State",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "localhost:3000/games/:id",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "games",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "{{gameId}}"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "gameId",
+      "value": ""
+    }
+  ]
+}
